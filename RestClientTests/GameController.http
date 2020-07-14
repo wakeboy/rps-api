@@ -1,0 +1,28 @@
+@baseUrl = https://localhost:5001
+
+GET {{baseUrl}}/api/game
+Content-Type: application/json
+
+###
+# @name createGame
+POST {{baseUrl}}/api/game/create
+Content-Type: application/json
+
+{
+    "player1Name": "TestPlayer1"
+}
+
+###
+@gameId =  {{createGame.response.body.$.id}}
+# @name game
+GET {{baseUrl}}/api/game/{{gameId}}
+
+
+###
+POST {{baseUrl}}/api/game/add-player
+Content-Type: application/json
+
+{
+    "gameId": "{{gameId}}",
+    "player2Name": "Player2 Name"
+}
