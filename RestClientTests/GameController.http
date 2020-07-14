@@ -19,10 +19,10 @@ GET {{baseUrl}}/api/game/{{gameId}}
 
 
 ###
-POST {{baseUrl}}/api/game/add-player
+POST {{baseUrl}}/api/game/join-game
 Content-Type: application/json
 
 {
     "gameId": "{{gameId}}",
-    "player2Name": "Player2 Name"
+    "playerName": "Player2 Name"
 }

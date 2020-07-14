@@ -6,6 +6,6 @@ namespace Api.Models
     {
         public Guid GameId { get; set; }
 
-        public string Player2Name { get; set; }
+        public string PlayerName { get; set; }
     }
 }

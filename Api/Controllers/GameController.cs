@@ -19,21 +19,20 @@ namespace Api.Controllers
         [HttpPost("create")]
         public ActionResult CreateGame([FromBody] CreateGameModel createGameModel)
         {
-            var game = this.gameRepository.CreateGame(createGameModel.Player1Name);
+            var game = this.gameRepository.CreateGame(createGameModel.PlayerName);
             return Ok(game);
         }
 
-        [HttpPost("add-player")]
-        public ActionResult AddPlayer([FromBody] AddPlayerModel addPlayerModel)
+        [HttpPost("join-game")]
+        public ActionResult JoinGame([FromBody] AddPlayerModel addPlayerModel)
         {
-            var game = this.gameRepository.AddPlayer(addPlayerModel.GameId, addPlayerModel.Player2Name);
+            var game = this.gameRepository.AddPlayer(addPlayerModel.GameId, addPlayerModel.PlayerName);
 
             if (game == null)
                 return NotFound();
 
             return Ok(game);
         }
-
 
         [HttpGet("{id}")]
         public ActionResult GetGame(Guid id)
