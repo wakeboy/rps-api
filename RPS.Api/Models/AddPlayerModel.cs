@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Api.Models
+namespace RPS.Api.Models
 {
     public class AddPlayerModel
     {

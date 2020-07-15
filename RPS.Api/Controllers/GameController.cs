@@ -1,35 +1,38 @@
 ﻿using System;
-using Api.Data;
-using Api.Models;
+using RPS.Api.Data;
+using RPS.Api.Models;
+using RPS.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace Api.Controllers
+namespace RPS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class GameController : ControllerBase
     {
+        private readonly IGameService gameService;
         private readonly IGameRepository gameRepository;
+        private readonly ILogger<GameController> logger;
 
-        public GameController(IGameRepository gameRepository)
+        public GameController(IGameService gameService, IGameRepository gameRepository, ILogger<GameController> logger)
         {
+            this.gameService = gameService;
             this.gameRepository = gameRepository;
+            this.logger = logger;
         }
 
         [HttpPost("create")]
         public ActionResult CreateGame([FromBody] CreateGameModel createGameModel)
         {
-            var game = this.gameRepository.CreateGame(createGameModel.PlayerName);
+            var game = this.gameService.CreateGame(createGameModel.PlayerName);
             return Ok(game);
         }
 
         [HttpPost("join-game")]
         public ActionResult JoinGame([FromBody] AddPlayerModel addPlayerModel)
         {
-            var game = this.gameRepository.AddPlayer(addPlayerModel.GameId, addPlayerModel.PlayerName);
-
-            if (game == null)
-                return NotFound();
+            var game = this.gameService.JoinGame(addPlayerModel.GameId, addPlayerModel.PlayerName);
 
             return Ok(game);
         }
