@@ -48,7 +48,7 @@ namespace RPS.Api
             app.UseRouting();
 
             app.UseCors(o =>
-                o.WithOrigins(new[] { "http://localhost:4200" })
+                o.WithOrigins(new[] { "http://localhost:4200", "https://localhost:4200" })
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
@@ -58,7 +58,7 @@ namespace RPS.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<GameHub>("/gamehub");
+                endpoints.MapHub<GameHub>("/hub/gamehub");
             });
         }
     }

@@ -4,6 +4,7 @@ using RPS.Api.Models;
 using RPS.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace RPS.Api.Controllers
 {
@@ -32,7 +33,10 @@ namespace RPS.Api.Controllers
         [HttpPost("join-game")]
         public ActionResult JoinGame([FromBody] AddPlayerModel addPlayerModel)
         {
-            var game = this.gameService.JoinGame(addPlayerModel.GameId, addPlayerModel.PlayerName);
+            var (game, errors) = this.gameService.JoinGame(addPlayerModel.GameId, addPlayerModel.PlayerName);
+
+            if (errors.Any())
+                return BadRequest(new ErrorResponse(errors));
 
             return Ok(game);
         }

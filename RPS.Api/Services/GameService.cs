@@ -1,9 +1,9 @@
-﻿using RPS.Api.Data;
+﻿using Microsoft.AspNetCore.Http.Features;
+using RPS.Api.Data;
 using RPS.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RPS.Api.Services
 {
@@ -22,7 +22,7 @@ namespace RPS.Api.Services
 
             if (game.Player1.Selection == Weapon.None || game.Player2.Selection == Weapon.None)
             {
-                return null;
+                return game;
             }
 
             switch(game.Player1.Selection.ToString().ToLower() + game.Player2.Selection.ToString().ToLower())
@@ -65,21 +65,24 @@ namespace RPS.Api.Services
             return gameRepository.GetGame(gameId);
         }
 
-        public GameModel JoinGame(Guid gameId, string playerName)
+        public (GameModel game, List<string> errors) JoinGame(Guid gameId, string playerName)
         {
             var game = this.gameRepository.GetGame(gameId);
-
+            var errors = new List<string>();
             if (game == null)
-                throw new ArgumentException("Games does not exist", nameof(gameId));
+                errors.Add("Games does not exist");
 
-            if (game.Player1.Name == playerName)
-                throw new ArgumentException("Player name already exists.", nameof(playerName));
+            if (game?.Player1?.Name == playerName)
+                errors.Add("Player name already exists, please user a different name");
 
-            if (!string.IsNullOrEmpty(game.Player2.Name))
-                throw new Exception("Maximum nubmer of players already in game");
+            if (!string.IsNullOrEmpty(game?.Player2?.Name))
+                errors.Add("Maximum nubmer of players already in game.");
+
+            if (errors.Any())
+                return (null, errors);
 
             game.Player2.Name = playerName;
-            return gameRepository.UpdateGame(game);
+            return (gameRepository.UpdateGame(game), errors);
         }
 
         public bool PlayersReady(Guid gameId)

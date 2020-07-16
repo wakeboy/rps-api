@@ -44,13 +44,7 @@ namespace RPS.Api.Hubs
             gameService.UserPick(gameId, user, weapon);
 
             var game = gameService.CheckResult(gameId);
-
-            if (game == null)
-                await NotifyPlayers(gameId, "Waiting selection");
-            else
-            {
-                await NotifyGame(gameId);
-            }
+            await NotifyGame(gameId);
         }
 
         private async Task NotifyGame(Guid gameId)

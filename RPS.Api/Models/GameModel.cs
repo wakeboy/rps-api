@@ -18,18 +18,6 @@ namespace RPS.Api.Models
 
         public PlayerModel Player2 { get; set; }
 
-        //public string Player1Name { get; set; }
-
-        //public int Player1Score { get; set; } = 0;
-
-        //public Weapon Player1Selection { get; set; }
-
-        //public string Player2Name { get; set; }
-
-        //public int Player2Score { get; set; } = 0;
-
-        //public Weapon Player2Selection { get; set; }
-
         public Winner LastWinner { get; set; }
     }
 }

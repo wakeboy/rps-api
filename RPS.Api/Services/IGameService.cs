@@ -1,5 +1,6 @@
 ﻿using RPS.Api.Models;
 using System;
+using System.Collections.Generic;
 
 namespace RPS.Api.Services
 {
@@ -13,7 +14,7 @@ namespace RPS.Api.Services
 
         GameModel CreateGame(string playerName);
 
-        GameModel JoinGame(Guid gameId, string playerName);
+        (GameModel game, List<string> errors) JoinGame(Guid gameId, string playerName);
 
         GameModel GetGame(Guid gameId);
     }
